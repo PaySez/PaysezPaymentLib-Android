@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".CardPaymentActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <EditText
+            android:id="@+id/merchant_id"
+            android:text="E01100000000009"
+            android:enabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/amount"
+            android:hint="amount"
+            android:text="100"
+            android:enabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <EditText
+            android:text="Name on Card"
+            android:id="@+id/purpose"
+            android:hint="name on card"
+            android:inputType="textPersonName"
+            android:enabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </EditText>
+
+        <EditText
+            android:id="@+id/cardno"
+            android:hint="cardno"
+
+            android:inputType="number"
+            android:maxLength="16"
+            android:enabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </EditText>
+
+        <EditText
+            android:id="@+id/expiry_month"
+            android:hint="expiry_month(mm)"
+            android:enabled="true"
+
+            android:maxLength="2"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </EditText>
+
+        <EditText
+
+            android:inputType="number"
+
+            android:id="@+id/expiry_year"
+            android:hint="expiry_year(yyyy)"
+            android:maxLength="4"
+            android:enabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </EditText>
+
+        <EditText
+            android:id="@+id/cvv"
+            android:hint="cvv"
+
+            android:maxLength="3"
+            android:inputType="number"
+            android:enabled="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </EditText>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+
+        <Button
+            android:id="@+id/trans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="do Trans">
+
+        </Button>
+    </LinearLayout>
+
+</LinearLayout>

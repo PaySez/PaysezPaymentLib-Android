@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".EmailSmsActivity">
+    <TextView
+
+        android:layout_marginTop="100dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:layout_width="match_parent"
+        android:text="Click link to copy"
+        android:layout_height="wrap_content">
+
+    </TextView>
+<TextView
+    android:layout_marginTop="20dp"
+    android:layout_width="match_parent"
+    android:id="@+id/url_textview"
+    android:text="sample"
+    android:gravity="center_vertical|center_horizontal"
+    android:layout_height="wrap_content">
+
+
+</TextView>
+<LinearLayout
+    android:layout_marginTop="100dp"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+    <Button
+        android:id="@+id/SMS"
+        android:text="Send SMS"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        >
+
+    </Button>
+    <Button
+        android:visibility="gone"
+        android:text="Send WHATSAPP"
+        android:id="@+id/whatsapp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        >
+
+    </Button>
+    <Button
+        android:text="Send EMAIL"
+        android:id="@+id/email"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        >
+
+    </Button>
+
+
+</LinearLayout>
+</LinearLayout>
