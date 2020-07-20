@@ -1,6 +1,6 @@
 package com.paysez.library;
 public class AppConfig {
-    // live
+    // Prod
 
     public static String baseurl = "https://pg.credopay.in";
     public static String ENDPOINT_FIRSTLEG_REQUEST = "/credopay/api/CPDirectPG.php";
@@ -8,7 +8,7 @@ public class AppConfig {
     public static String RupayLeg = "https://pg.credopay.in/credopay/api/CPDirectPG.php";
 
 
-    //live
+    //Prod
 
 
 
