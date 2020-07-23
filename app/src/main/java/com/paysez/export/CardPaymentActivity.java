@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.paysez.library.AppConfig;
 import com.paysez.library.TransactionActivity;
 
 import java.text.DateFormat;
@@ -55,8 +56,7 @@ public class CardPaymentActivity extends AppCompatActivity {
                 String Transaction_id = merchant_id + timestamp;
                 String TransactionType = "AA";//RR/RP
                 String PaymentChannel = "Pg";
-                String redirectionUrl = "https://pg.credopay.net?";
-
+                String redirectionUrl = AppConfig.redirectionUrl;
                 String nameoncard = name_view.getText().toString();
                 String card_num = cardno_view.getText().toString();
                 String expiry_mm = expiry_month_view.getText().toString();
@@ -65,7 +65,7 @@ public class CardPaymentActivity extends AppCompatActivity {
 
 
 
-                String returnUrl = "https://pg.credopay.in/credopay/api/appresponsemerchant.php?randomgen=" + card_cvv;
+                String returnUrl = AppConfig.returnUrl + card_cvv;
                 String currencyCodeNum = "356";
                 String currencyExponent = "2";
                 String key = "ec89434eca0835";
