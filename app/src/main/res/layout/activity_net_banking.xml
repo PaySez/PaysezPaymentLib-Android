@@ -15,10 +15,10 @@
 
         <EditText
             android:id="@+id/merchant_id"
-            android:text="E01010000000039"
-            android:enabled="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:text="E01100000000009" />
 
         <EditText
             android:id="@+id/amount"
@@ -28,11 +28,27 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <EditText
+            android:id="@+id/trans_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="true"
+            android:hint="amount"
+            android:text="GENERATE TRAN ID" />
+
+        <Button
+            android:id="@+id/generate_tran"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Generate Transaction ID">
+
+        </Button>
 
     </LinearLayout>
 
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1">
@@ -45,6 +61,16 @@
             android:text="do Trans">
 
         </Button>
+
+        <Button
+            android:id="@+id/query"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="query">
+
+        </Button>
     </LinearLayout>
+
+
 
 </LinearLayout>

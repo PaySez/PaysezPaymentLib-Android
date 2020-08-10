@@ -479,6 +479,8 @@ public class TransactionActivity extends Activity {
                 //Log.v("Check_Check", "==========================================>" + request_header);
                 Log.d("DATA-REQHEADER", "request.getRequestHeaders()::" + request.getRequestHeaders());
                 Log.d("DATA-REQURL", "request.getRequestHeaders()::" + request.getUrl());
+                Log.d("DATA-REQURL", "request.getRequestHeaders()::" + request.getUrl());
+               // Log.d("DATA-REQURL", "request.getRequestHeaders()::" + request.get());
 //                String headers = String.valueOf(request.getUrl());
 //                Log.v("============>", headers);
 //                if (headers.contains("msg=ACCU000"))
