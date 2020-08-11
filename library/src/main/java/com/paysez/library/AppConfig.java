@@ -13,6 +13,7 @@ public class AppConfig {
     //UAT
 
 
+
     public static String baseurl= "https://pguat.credopay.info";
     public static String ENDPOINT_FIRSTLEG_REQUEST = "/credopay/api/CPDirectPG.php";
     public  static String cardSubmit = "https://pguat.credopay.info/credopay/api/visasubmit1.php";
