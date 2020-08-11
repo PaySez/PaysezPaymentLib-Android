@@ -56,7 +56,7 @@ public class CardPaymentActivity extends AppCompatActivity {
                 String Transaction_id = merchant_id + timestamp;
                 String TransactionType = "AA";//RR/RP
                 String PaymentChannel = "Pg";
-                String redirectionUrl = AppConfig.redirectionUrl;
+                String redirectionUrl = "http://example.com?";
                 String nameoncard = name_view.getText().toString();
                 String card_num = cardno_view.getText().toString();
                 String expiry_mm = expiry_month_view.getText().toString();
