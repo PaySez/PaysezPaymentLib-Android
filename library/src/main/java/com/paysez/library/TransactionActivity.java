@@ -1,4 +1,5 @@
 package com.paysez.library;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -21,6 +22,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.util.concurrent.TimeUnit;
 
@@ -36,6 +39,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.webkit.WebSettings.LOAD_NO_CACHE;
+
 public class TransactionActivity extends Activity {
     public static final int REQUEST_CODE_TRANSACTION = 1;
     public static final int RESULT_CODE_TRANSACTION = 2;
@@ -43,7 +47,9 @@ public class TransactionActivity extends Activity {
     WebView webview;
     ProgressDialog pd;
     String Tag;
+    String redirectionurl;
     String session, AccuGuid;
+
     public static String AESEncrypt(String value, String keyvalue, String ivvvalue) {
         try {
             String key = sha256(keyvalue).substring(0, 32);
@@ -60,10 +66,12 @@ public class TransactionActivity extends Activity {
         }
         return null;
     }
+
     private static String URLencode(String value) {
         String urlEncoded = Uri.encode(value);
         return urlEncoded;
     }
+
     public static String sha256(String base) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -79,6 +87,7 @@ public class TransactionActivity extends Activity {
             throw new RuntimeException(ex);
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +120,7 @@ public class TransactionActivity extends Activity {
         String Transaction_id = getIntent().getStringExtra("transactionId");
         String TransactionType = getIntent().getStringExtra("transactionType");
         String PaymentChannel = getIntent().getStringExtra("paymentChannel");
-        String redirectionurl = getIntent().getStringExtra("redirectionUrl");
+        redirectionurl = getIntent().getStringExtra("redirectionUrl");
         String nameoncard = getIntent().getStringExtra("nameOnCard");
         String pan = getIntent().getStringExtra("cardNo");
         String ExpiryMonth = getIntent().getStringExtra("expiryMonth");
@@ -124,6 +133,7 @@ public class TransactionActivity extends Activity {
         String ivv = getIntent().getStringExtra("iv");
         FirstLegRequest(merchantId, purchaseAmount, currencyCodeChr, env, timestamp, Transaction_id, TransactionType, PaymentChannel, redirectionurl, nameoncard, pan, ExpiryMonth, ExpiryYear, CardCvv, currencyCodeNum, currencyExponent, returnUrl, key, ivv);
     }
+
     /**
      * Opens the URL in a browser.
      */
@@ -261,6 +271,7 @@ public class TransactionActivity extends Activity {
                                 }
                             }
                         }
+
                         public void onFailure(Call<FirstResponse> call, Throwable t) {
                             Log.v("error", "error");
                         }
@@ -273,6 +284,7 @@ public class TransactionActivity extends Activity {
             e.printStackTrace();
         }
     }
+
     private void cardSubmit(String schema, String merchant_id, String Transaction_id, String cardnumber, String modifiedExpiration, String timestamp, String amount, String currencyCodeNum, String currencyCodeChr, String currencyExponent, String env, String returnUrl) {
 //String merchantId,String transactionId,String pan,String expiration,String purchaseDate,String purchaseAmount,String currencyCodeNum,String currencyCodeChr,String currencyExponent,String mac,String env,String returnUrl
         Log.v("flow", "into cardSubmit");
@@ -327,11 +339,12 @@ public class TransactionActivity extends Activity {
                             "&serviceUrl=mpi.jsp";
 
             webview.postUrl(AppConfig.cardSubmit, postData.getBytes()); //UAT
-         webview.requestFocus();
+            webview.requestFocus();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     private void RupayFlow(String merchant_id, String amount, String currency, String env, String timestamp, String Transaction_id, String TransactionType,
                            String PaymentChannel, String redirectionurl, String tax, String nameoncard, String card_num, String expiry_mm, String expiry_yy, String card_cvv) {
         int amount_val = Integer.parseInt(amount) / 100;
@@ -358,9 +371,10 @@ public class TransactionActivity extends Activity {
                 "&payment_method=" + "smartro";
         Log.v("postdata", postData);
 
-       webview.postUrl(AppConfig.RupayLeg, postData.getBytes());
+        webview.postUrl(AppConfig.RupayLeg, postData.getBytes());
         webview.requestFocus();
     }
+
     private void RupayFlow2(String merchant_id, String amount, String currency, String env, String timestamp, String Transaction_id, String TransactionType,
                             String PaymentChannel, String redirectionurl, String tax, String nameoncard, String card_num, String expiry_mm, String expiry_yy, String card_cvv) {
         int amount_val = Integer.parseInt(amount) / 100;
@@ -407,6 +421,7 @@ public class TransactionActivity extends Activity {
                     pd.dismiss();
                 }
             }
+
             @Override
             public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
                 if (response.isSuccessful()) {
@@ -465,13 +480,16 @@ public class TransactionActivity extends Activity {
             }
         });
     }
+
     public String getSdkVersion() {
         return "SDK version 5.10";
     }
+
     private class MyWebViewClient extends WebViewClient {
         private final int PAGE_STARTED = 0x1;
         private final int PAGE_REDIRECTED = 0x2;
         private int webViewPreviousState;
+
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -480,7 +498,7 @@ public class TransactionActivity extends Activity {
                 Log.d("DATA-REQHEADER", "request.getRequestHeaders()::" + request.getRequestHeaders());
                 Log.d("DATA-REQURL", "request.getRequestHeaders()::" + request.getUrl());
                 Log.d("DATA-REQURL", "request.getRequestHeaders()::" + request.getUrl());
-               // Log.d("DATA-REQURL", "request.getRequestHeaders()::" + request.get());
+                // Log.d("DATA-REQURL", "request.getRequestHeaders()::" + request.get());
 //                String headers = String.valueOf(request.getUrl());
 //                Log.v("============>", headers);
 //                if (headers.contains("msg=ACCU000"))
@@ -513,6 +531,7 @@ public class TransactionActivity extends Activity {
             }
             return null;
         }
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
@@ -520,6 +539,7 @@ public class TransactionActivity extends Activity {
             Log.d("1111", "WebViewClient: shouldOverrideUrlLoading");
             return true;
         }
+
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -548,6 +568,7 @@ public class TransactionActivity extends Activity {
                 }
             }
         }
+
         @Override
         public void onPageFinished(WebView view, String url) {
             Log.v("onPageFinished", url);
@@ -567,25 +588,98 @@ public class TransactionActivity extends Activity {
                 if (pd != null) {
                     pd.dismiss();
                 }
-                //Failure
-                Log.v(Tag, "failure");
-                Intent intent = getIntent();
-                intent.putExtra("key", url);
-                intent.putExtra("status", "failure");
-                setResult(RESULT_CODE_TRANSACTION, intent);
-                finish();
+
+
+// http://example.com/?responsecode=00&merchant_id=E01100000000009&transaction_id=E0110000000000920200811171245&amount=1.00&currency=INR&request_type=AA&success=true&errordesc=Success&rrn=&apprcode=
+                //String value = "http://example.com/responsecode=05&merchant_id=E01100000000009&transaction_id=E0110000000000920200811173052&amount=1.00&currency=INR&TransactionType=AA&success=false&errordesc=Do%20not%20honor%20%20&rrn=022417012866&refNbr=012866";
+                url = url.replace(redirectionurl, "");
+
+
+                System.out.println(url);
+
+                String[] split = url.split("&");
+
+
+                try {
+                    String responsecode = split[0];
+                    String merchant_id = split[1];
+                    String transaction_id = split[2];
+                    String amount = split[3];
+                    String currency = split[4];
+                    String TransactionType = split[5];
+                    String success = split[6];
+                    String errordesc = URLDecoder.decode(split[7], "UTF-8");
+                    String rrn = split[8];
+                    String refNbr = split[9];
+
+
+                    Log.v(Tag, "failure");
+                    Intent intent = getIntent();
+                    intent.putExtra("key", url);
+                    intent.putExtra("responsecode", responsecode.split("=")[1]);
+                    intent.putExtra("merchant_id", merchant_id.split("=")[1]);
+                    intent.putExtra("transaction_id", transaction_id.split("=")[1]);
+                    intent.putExtra("amount", amount.split("=")[1]);
+                    intent.putExtra("currency", currency.split("=")[1]);
+                    intent.putExtra("TransactionType", TransactionType.split("=")[1]);
+                    intent.putExtra("success", success.split("=")[1]);
+                    intent.putExtra("errordesc", errordesc.split("=")[1]);
+                    intent.putExtra("rrn", rrn.split("=")[1]);
+                    intent.putExtra("refNbr", refNbr.split("=")[1]);
+
+                    intent.putExtra("status", "failure");
+                    setResult(RESULT_CODE_TRANSACTION, intent);
+                    finish();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+
             }
             if (url.contains("success=true")) {
                 if (pd != null) {
                     pd.dismiss();
                 }
-                //Failure
-                Log.v(Tag, "success");
-                Intent intent = getIntent();
-                intent.putExtra("key", url);
-                intent.putExtra("status", "success");
-                setResult(RESULT_CODE_TRANSACTION, intent);
-                finish();
+
+                try {
+                    url = url.replace(redirectionurl, "");
+
+
+                    System.out.println(url);
+
+                    String[] split = url.split("&");
+                    String responsecode = split[0];
+                    String merchant_id = split[1];
+                    String transaction_id = split[2];
+                    String amount = split[3];
+                    String currency = split[4];
+                    String TransactionType = split[5];
+                    String success = split[6];
+                    String errordesc = URLDecoder.decode(split[7], "UTF-8");
+                    String rrn = split[8];
+                    String refNbr = split[9];
+
+                    Log.v(Tag, "success");
+                    Intent intent = getIntent();
+                    intent.putExtra("key", url);
+                    intent.putExtra("responsecode", responsecode.split("=")[1]);
+                    intent.putExtra("merchant_id", merchant_id.split("=")[1]);
+                    intent.putExtra("transaction_id", transaction_id.split("=")[1]);
+                    intent.putExtra("amount", amount.split("=")[1]);
+                    intent.putExtra("currency", currency.split("=")[1]);
+                    intent.putExtra("TransactionType", TransactionType.split("=")[1]);
+                    intent.putExtra("success", success.split("=")[1]);
+                    intent.putExtra("errordesc", errordesc.split("=")[1]);
+                    intent.putExtra("rrn", rrn.split("=")[1]);
+                    intent.putExtra("refNbr", refNbr.split("=")[1]);
+                    intent.putExtra("status", "success");
+                    setResult(RESULT_CODE_TRANSACTION, intent);
+                    finish();
+                } catch (Exception e) {
+
+                    Log.e("err", e.toString());
+
+                }
             }
         }
     }

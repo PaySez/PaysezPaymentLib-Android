@@ -16,7 +16,7 @@
             android:name=".MerchantLoginActivity"
             android:noHistory="true" />
         <activity android:name=".PaymentLinksActivity" />
-        <activity android:name="com.paysez.library.CommonWebViewActivity" />
+        <activity android:name="com.paysez.library.NetbankingWebViewActivity" />
         <activity android:name=".RecyclerViewActivity" />
         <activity android:name=".EmailSmsActivity" />
         <activity

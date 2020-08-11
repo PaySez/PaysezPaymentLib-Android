@@ -56,7 +56,7 @@ public class CardPaymentActivity extends AppCompatActivity {
                 String Transaction_id = merchant_id + timestamp;
                 String TransactionType = "AA";//RR/RP
                 String PaymentChannel = "Pg";
-                String redirectionUrl = "http://example.com?";
+                String redirectionUrl = "http://example.com/";
                 String nameoncard = name_view.getText().toString();
                 String card_num = cardno_view.getText().toString();
                 String expiry_mm = expiry_month_view.getText().toString();
@@ -136,6 +136,28 @@ public class CardPaymentActivity extends AppCompatActivity {
             if (requestCode == REQUEST_CODE_TRANSACTION && resultCode == RESULT_CODE_TRANSACTION) {
                 String requiredValue = data.getStringExtra("key");
                 String status = data.getStringExtra("status");
+                String responsecode = data.getStringExtra("responsecode");
+                String merchant_id = data.getStringExtra("merchant_id");
+                String transaction_id = data.getStringExtra("transaction_id");
+                String amount = data.getStringExtra("amount");
+                String currency = data.getStringExtra("currency");
+                String TransactionType = data.getStringExtra("TransactionType");
+                String success = data.getStringExtra("success");
+                String errordesc = data.getStringExtra("errordesc");
+                String rrn = data.getStringExtra("rrn");
+                String refNbr = data.getStringExtra("refNbr");
+
+
+                Log.v("response", responsecode);
+                Log.v("response", merchant_id);
+                Log.v("response", transaction_id);
+                Log.v("response", amount);
+                Log.v("response", TransactionType);
+                Log.v("response", success);
+                Log.v("response", errordesc);
+                Log.v("response", rrn);
+                Log.v("response", refNbr);
+                Log.v("response", currency);
                 Log.v("response", requiredValue);
                 Log.v("response", status);
                 Toast.makeText(this, requiredValue,
