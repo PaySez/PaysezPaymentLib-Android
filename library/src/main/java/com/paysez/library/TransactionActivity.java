@@ -131,6 +131,7 @@ public class TransactionActivity extends Activity {
         String currencyExponent = getIntent().getStringExtra("currencyExponent");
         String key = getIntent().getStringExtra("key");
         String ivv = getIntent().getStringExtra("iv");
+        Log.v("SDK-VERSION", "YOUR APP IS USING SDK VERSION : " + AppConfig.sdk_version);
         FirstLegRequest(merchantId, purchaseAmount, currencyCodeChr, env, timestamp, Transaction_id, TransactionType, PaymentChannel, redirectionurl, nameoncard, pan, ExpiryMonth, ExpiryYear, CardCvv, currencyCodeNum, currencyExponent, returnUrl, key, ivv);
     }
 

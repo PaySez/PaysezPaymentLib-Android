@@ -64,7 +64,7 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
         webview.getSettings().setUseWideViewPort(false);
         webview.getSettings().setLoadWithOverviewMode(false);
 
-
+        Log.v("SDK-VERSION", "YOUR APP IS USING SDK VERSION : " + AppConfig.sdk_version);
 
         if (getIntent().getStringExtra("action").equals("sale")) {
 
@@ -98,8 +98,8 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
             String Transaction_id = data.getStringExtra("Transaction_id");
             String vendor_pay_option = data.getStringExtra("vendor_pay_option");
             String postData = "&merchant_id=" + merchant_id +
-                            "&Transaction_id=" + Transaction_id +
-                            "&vendor_pay_option=" + vendor_pay_option;
+                    "&Transaction_id=" + Transaction_id +
+                    "&vendor_pay_option=" + vendor_pay_option;
 
             webview.postUrl(AppConfig.netbanking_query, postData.getBytes());
             webview.requestFocus();
@@ -159,14 +159,12 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
 
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
-        public void onPageFinished(WebView view, String url)
-        {
+        public void onPageFinished(WebView view, String url) {
             Log.v("onPageFinished", url);
             if (pd != null) {
 
                 pd.dismiss();
             }
-
 
 
             if (url.contains("https://pguat.credopay.info/credopaylogin/NBQuery_status.php")) {
@@ -190,8 +188,7 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
             }
 
 
-            if (url.contains("success=Failed"))
-            {
+            if (url.contains("success=Failed")) {
                 if (pd != null) {
 
                     pd.dismiss();
