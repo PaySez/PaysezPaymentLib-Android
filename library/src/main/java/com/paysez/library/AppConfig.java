@@ -4,7 +4,7 @@ public class AppConfig {
 
 
     // Prod
-    public static String sdk_version = "v1.6-beta.0";
+    public static String sdk_version = "v1.7-beta.0";
     public static String baseurl = "https://pg.credopay.in";
     public static String ENDPOINT_FIRSTLEG_REQUEST = "/credopay/api/CPDirectPG.php";
     public static String cardSubmit = "https://pg.credopay.in/credopay/api/visasubmit1.php";
