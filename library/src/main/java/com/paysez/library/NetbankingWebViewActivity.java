@@ -42,6 +42,9 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
     public String redirectionurl;
     int REQUEST_CODE_SALE = 1;
     int REQUEST_CODE_QUERY = 2;
+    String transaction_id;
+    String merchant_id;
+    String amount;
 
     @SuppressLint("JavascriptInterface")
     @Override
@@ -69,9 +72,9 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("action").equals("sale")) {
 
             Intent data = getIntent();
-            String merchant_id = data.getStringExtra("merchant_id");
-            String amount = data.getStringExtra("amount");
-            String transaction_id = data.getStringExtra("transaction_id");
+            merchant_id = data.getStringExtra("merchant_id");
+            amount = data.getStringExtra("amount");
+            transaction_id = data.getStringExtra("transaction_id");
             redirectionurl = data.getStringExtra("redirectionurl");
             String time = data.getStringExtra("time");
 
@@ -88,6 +91,7 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
 
 
             webview.postUrl(AppConfig.netbanking_sale, postData.getBytes());
+            //webview.postUrl("https://pg.ezswype.in/credopay/pay.php?pay=e4825826af",postData.getBytes());
             webview.requestFocus();
 
         }
@@ -289,5 +293,22 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
 
+
+        Intent intent = getIntent();
+        Toast.makeText(getApplicationContext(), "User Back Pressed", Toast.LENGTH_LONG).show();
+        intent.putExtra("responsecode", "03");
+        intent.putExtra("merchant_id", merchant_id);
+        intent.putExtra("transaction_id", transaction_id);
+        intent.putExtra("amount", amount);
+        intent.putExtra("success", "false");
+        intent.putExtra("errordesc", "user back press detected/ transaction cancelled");
+        intent.putExtra("status", "failure");
+        setResult(300,intent);
+        finish();
+        super.onBackPressed();
+
+    }
 }

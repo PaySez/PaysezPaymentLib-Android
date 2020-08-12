@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="true"
-            android:text="E01100000000009" />
+            android:text="E01010000001529" />
 
         <EditText
             android:id="@+id/amount"

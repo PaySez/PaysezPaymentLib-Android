@@ -46,7 +46,7 @@ public class NetBanking extends AppCompatActivity {
                 date = new Date();
                 time = dateFormat.format(date);
                 trans_id.setText("");
-                trans_id.setText( merchant_id.getText().toString()+time);
+                trans_id.setText(merchant_id.getText().toString() + time);
 
             }
         });
@@ -90,7 +90,7 @@ public class NetBanking extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.v("asdasdsad",requestCode+" "+resultCode);
+        Log.v("asdasdsad", requestCode + " " + resultCode);
 
         if (requestCode == REQUEST_CODE_SALE && resultCode == 100) {
 
@@ -119,14 +119,13 @@ public class NetBanking extends AppCompatActivity {
             Log.v("response", status);
 
 
-
-
-
-
         } else if (requestCode == REQUEST_CODE_QUERY && resultCode == 200) {
             String result = data.getStringExtra("result");
             Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+        } else if (requestCode == REQUEST_CODE_SALE && resultCode == 300) {
+            String result = data.getStringExtra("result");
+            String errordesc = data.getStringExtra("errordesc");
+            Toast.makeText(getApplicationContext(), errordesc, Toast.LENGTH_SHORT).show();
         }
-
     }
 }
