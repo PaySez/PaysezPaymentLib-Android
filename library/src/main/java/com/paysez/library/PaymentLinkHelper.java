@@ -45,6 +45,8 @@ public class PaymentLinkHelper extends AppCompatActivity {
 
             case "create_link":
 
+
+
                 String amt = getIntent().getStringExtra("amt");
                 String nm = getIntent().getStringExtra("nm");
                 String mid = getIntent().getStringExtra("mid");
@@ -153,8 +155,6 @@ public class PaymentLinkHelper extends AppCompatActivity {
                     @Override
                     public void onFailure(Call<LoginResponse> call, Throwable t) {
                         hideProgressDialog();
-//                        Log.v("data", "null");
-//                        Log.v("data", "null");
                         Intent intent = new Intent();
                         intent.putExtra("mid", "null");
                         intent.putExtra("error_msg", "something went wrong!");
@@ -289,8 +289,7 @@ public class PaymentLinkHelper extends AppCompatActivity {
                                     .addFormDataPart("request_for", request_for_val)
                                     .build();
                             Request request = new Request.Builder()
-                                    // .url("https://pguat.credopay.info/credopaylogin/pushpay_MobReq.php")
-                                    .url("https://pg.credopay.in/credopaylogin/pushpay_MobReq.php")
+                                    .url(AppConfig.push_payment)
                                     .method("POST", body)
                                     .build();
                             okhttp3.Response response = client.newCall(request).execute();

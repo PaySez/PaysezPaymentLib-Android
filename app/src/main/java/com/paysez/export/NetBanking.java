@@ -122,7 +122,8 @@ public class NetBanking extends AppCompatActivity {
         } else if (requestCode == REQUEST_CODE_QUERY && resultCode == 200) {
             String result = data.getStringExtra("result");
             Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-        } else if (requestCode == REQUEST_CODE_SALE && resultCode == 300) {
+        } else if (requestCode == REQUEST_CODE_SALE && resultCode == 300)
+        {
             String result = data.getStringExtra("result");
             String errordesc = data.getStringExtra("errordesc");
             Toast.makeText(getApplicationContext(), errordesc, Toast.LENGTH_SHORT).show();

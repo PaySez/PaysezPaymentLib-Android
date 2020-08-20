@@ -50,52 +50,56 @@ public class CardPaymentActivity extends AppCompatActivity {
                 String merchant_id = merchant_id_view.getText().toString();
                 String amount = amount_view.getText().toString();
 
-                String currencyCodeChr = "INR";
-                String env = "livem";
+
+
                 String timestamp = time;
                 String Transaction_id = merchant_id + timestamp;
-                String TransactionType = "AA";//RR/RP
-                String PaymentChannel = "Pg";
-                String redirectionUrl = "http://example.com/";
+
+
                 String nameoncard = name_view.getText().toString();
                 String card_num = cardno_view.getText().toString();
                 String expiry_mm = expiry_month_view.getText().toString();
-                String expiry_yyyy = expiry_year_view.getText().toString();
+                String expiry_yy = expiry_year_view.getText().toString();
                 String card_cvv = cvv.getText().toString();
 
+//                String nameoncard = "NAME";
+//                String card_num = "4106111122223333";
+//                String expiry_mm = "09";
+//                String expiry_yy = "21";
+//                String card_cvv = "321";
 
 
-                String returnUrl = AppConfig.returnUrl + card_cvv;
-                String currencyCodeNum = "356";
-                String currencyExponent = "2";
+
+
+                //String redirectionUrl = "https://pg.credopay.in/credopaylogin/digitalpaySuccess.php?";
+                String redirectionUrl = "https://www.example.com/?";
+
+
+
                 String key = "ec89434eca0835";
                 String ivv = "347637a3e64493";
+
+
+
 
                 Intent intent = new Intent(CardPaymentActivity.this, TransactionActivity.class);
                 intent.putExtra("merchantID", merchant_id);
                 intent.putExtra("purchaseAmount", amount);
-                intent.putExtra("currencyCodeChr", currencyCodeChr);
-                intent.putExtra("env", env);
                 intent.putExtra("timeStamp", timestamp);
                 intent.putExtra("transactionId", Transaction_id);
-                intent.putExtra("transactionType", TransactionType);
-                intent.putExtra("paymentChannel", PaymentChannel);
                 intent.putExtra("redirectionUrl", redirectionUrl);
                 intent.putExtra("nameOnCard", nameoncard);
                 intent.putExtra("cardNo", card_num);
                 intent.putExtra("expiryMonth", expiry_mm);
-                intent.putExtra("expiryYear", expiry_yyyy);
+                intent.putExtra("expiryYear", expiry_yy);
                 intent.putExtra("cardCvv", card_cvv);
-                intent.putExtra("returnUrl", returnUrl);
-                intent.putExtra("currencyCodeNum", currencyCodeNum);
-                intent.putExtra("currencyExponent", currencyExponent);
                 intent.putExtra("key", key);
                 intent.putExtra("iv", ivv);
                 startActivityForResult(intent, REQUEST_CODE_TRANSACTION);
 
                 TransactionActivity transactionActivity = new TransactionActivity();
                 Log.v("sdkversion", transactionActivity.getSdkVersion());
-              //  Constants.session = RandomStringUtils.random(32, true, true);
+
 
             }
         });
@@ -127,40 +131,39 @@ public class CardPaymentActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         try {
 
             super.onActivityResult(requestCode, resultCode, data);
 
 
-            if (requestCode == REQUEST_CODE_TRANSACTION && resultCode == RESULT_CODE_TRANSACTION) {
-                String requiredValue = data.getStringExtra("key");
-                String status = data.getStringExtra("status");
+            if (requestCode == REQUEST_CODE_TRANSACTION && resultCode == RESULT_CODE_TRANSACTION)
+            {
+                String full_response = data.getStringExtra("full_response");
                 String responsecode = data.getStringExtra("responsecode");
                 String merchant_id = data.getStringExtra("merchant_id");
                 String transaction_id = data.getStringExtra("transaction_id");
                 String amount = data.getStringExtra("amount");
-                String currency = data.getStringExtra("currency");
-                String TransactionType = data.getStringExtra("TransactionType");
                 String success = data.getStringExtra("success");
                 String errordesc = data.getStringExtra("errordesc");
                 String rrn = data.getStringExtra("rrn");
-                String refNbr = data.getStringExtra("refNbr");
+                String status = data.getStringExtra("status");
 
 
-                Log.v("response", responsecode);
-                Log.v("response", merchant_id);
-                Log.v("response", transaction_id);
-                Log.v("response", amount);
-                Log.v("response", TransactionType);
-                Log.v("response", success);
-                Log.v("response", errordesc);
-                Log.v("response", rrn);
-                Log.v("response", refNbr);
-                Log.v("response", currency);
-                Log.v("response", requiredValue);
-                Log.v("response", status);
-                Toast.makeText(this, requiredValue,
+                Log.v("DATA_response", "=================RESPONSE===========================");
+                Log.v("DATA_response", full_response);
+                Log.v("DATA_response", responsecode);
+                Log.v("DATA_response", merchant_id);
+                Log.v("DATA_response", transaction_id);
+                Log.v("DATA_response", amount);
+                Log.v("DATA_response", success);
+                Log.v("DATA_response", errordesc);
+                Log.v("DATA_response", rrn);
+                Log.v("DATA_response", status);
+                Log.v("DATA_response", "=================RESPONSE===========================");
+
+                Toast.makeText(this, full_response,
                         Toast.LENGTH_SHORT).show();
                 Toast.makeText(this, status,
                         Toast.LENGTH_SHORT).show();
