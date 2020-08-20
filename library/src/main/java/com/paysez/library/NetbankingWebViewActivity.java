@@ -23,11 +23,16 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -171,7 +176,8 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
             }
 
 
-            if (url.contains("https://pguat.credopay.info/credopaylogin/NBQuery_status.php")) {
+            if (url.contains("https://pguat.credopay.info/credopaylogin/NBQuery_status.php"))
+            {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                     webview.evaluateJavascript(
@@ -192,7 +198,9 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
             }
 
 
-            if (url.contains("success=Failed")) {
+
+                if (url.contains("success=Failed") && !url.contains("/fbtestbackground.php") && url.contains(redirectionurl))
+            {
                 if (pd != null) {
 
                     pd.dismiss();
@@ -200,38 +208,35 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
 
 
                 try {
-                    url = url.replace(redirectionurl, "");
 
 
-                    System.out.println(url);
+                    Map<String, List<String>> values = getQueryParams(url);
+                    List<String> responsecode = values.get("responsecode");
+                    List<String> merchant_id = values.get("merchant_id");
+                    List<String> transaction_id = values.get("transaction_id");
+                    List<String> amount = values.get("amount");
+                    List<String> success = values.get("success");
+                    List<String> errordesc = values.get("errordesc");
+                    List<String> refNbr = values.get("refNbr");
 
 
-                    String[] split = url.split("&");
-                    String responsecode = split[0];
-                    String merchant_id = split[1];
-                    String transaction_id = split[2];
-                    String amount = split[3];
-                    String currency = split[4];
-                    String TransactionType = split[5];
-                    String success = split[6];
-                    String errordesc = URLDecoder.decode(split[7], "UTF-8");
 
-                    String refNbr = split[8];
 
 
                     Log.v(Tag, "failure");
                     Intent intent = getIntent();
 
-                    intent.putExtra("responsecode", responsecode.split("=")[1]);
-                    intent.putExtra("merchant_id", merchant_id.split("=")[1]);
-                    intent.putExtra("transaction_id", transaction_id.split("=")[1]);
-                    intent.putExtra("amount", amount.split("=")[1]);
-                    intent.putExtra("currency", currency.split("=")[1]);
-                    intent.putExtra("TransactionType", TransactionType.split("=")[1]);
-                    intent.putExtra("success", success.split("=")[1]);
-                    intent.putExtra("errordesc", errordesc.split("=")[1]);
 
-                    intent.putExtra("refNbr", refNbr.split("=")[1]);
+
+
+                    intent.putExtra("full_response", url);
+                    intent.putExtra("responsecode", responsecode.get(0));
+                    intent.putExtra("merchant_id", merchant_id.get(0));
+                    intent.putExtra("transaction_id", transaction_id.get(0));
+                    intent.putExtra("amount", amount.get(0));
+                    intent.putExtra("success", success.get(0));
+                    intent.putExtra("errordesc", errordesc.get(0));
+                    intent.putExtra("refNbr", refNbr.get(0));
                     intent.putExtra("status", "failure");
                     setResult(100, intent);
                     finish();
@@ -244,40 +249,44 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
             }
 
 
-            if (url.contains("responsecode=200") && url.contains("success=Success")) {
+
+            if (url.contains("responsecode=200") && url.contains("success=Success") && !url.contains("/fbtestbackground.php") && url.contains(redirectionurl))
+            {
 
 
                 try {
-                    url = url.replace(redirectionurl, "");
 
 
-                    System.out.println(url);
+                    Map<String, List<String>> values = getQueryParams(url);
+                    List<String> responsecode = values.get("responsecode");
+                    List<String> merchant_id = values.get("merchant_id");
+                    List<String> transaction_id = values.get("transaction_id");
+                    List<String> amount = values.get("amount");
+                    List<String> success = values.get("success");
+                    List<String> errordesc = values.get("errordesc");
+                    List<String> refNbr = values.get("refNbr");
 
 
-                    String[] split = url.split("&");
-                    String responsecode = split[0];
-                    String merchant_id = split[1];
-                    String transaction_id = split[2];
-                    String amount = split[3];
-                    String currency = split[4];
-                    String TransactionType = split[5];
-                    String success = split[6];
-                    String errordesc = URLDecoder.decode(split[7], "UTF-8");
-                    String refNbr = split[8];
+
 
 
                     Log.v(Tag, "success");
                     Intent intent = getIntent();
 
-                    intent.putExtra("responsecode", responsecode.split("=")[1]);
-                    intent.putExtra("merchant_id", merchant_id.split("=")[1]);
-                    intent.putExtra("transaction_id", transaction_id.split("=")[1]);
-                    intent.putExtra("amount", amount.split("=")[1]);
-                    intent.putExtra("currency", currency.split("=")[1]);
-                    intent.putExtra("TransactionType", TransactionType.split("=")[1]);
-                    intent.putExtra("success", success.split("=")[1]);
-                    intent.putExtra("errordesc", errordesc.split("=")[1]);
-                    intent.putExtra("refNbr", refNbr.split("=")[1]);
+
+
+
+                    intent.putExtra("full_response", url);
+                    intent.putExtra("responsecode", responsecode.get(0));
+                    intent.putExtra("merchant_id", merchant_id.get(0));
+                    intent.putExtra("transaction_id", transaction_id.get(0));
+                    intent.putExtra("amount", amount.get(0));
+                    intent.putExtra("success", success.get(0));
+                    intent.putExtra("errordesc", errordesc.get(0));
+                    intent.putExtra("refNbr", refNbr.get(0));
+
+
+
                     intent.putExtra("status", "success");
                     setResult(100, intent);
                     finish();
@@ -292,7 +301,35 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
 
         }
     }
+    public Map<String, List<String>> getQueryParams(String url)
+    {
+        try {
+            Map<String, List<String>> params = new HashMap<String, List<String>>();
+            String[] urlParts = url.split("\\?");
+            if (urlParts.length > 1) {
+                String query = urlParts[1];
+                for (String param : query.split("&")) {
+                    String[] pair = param.split("=");
+                    String key = URLDecoder.decode(pair[0], "UTF-8");
+                    String value = "";
+                    if (pair.length > 1) {
+                        value = URLDecoder.decode(pair[1], "UTF-8");
+                    }
 
+                    List<String> values = params.get(key);
+                    if (values == null) {
+                        values = new ArrayList<String>();
+                        params.put(key, values);
+                    }
+                    values.add(value);
+                }
+            }
+
+            return params;
+        } catch (UnsupportedEncodingException ex) {
+            throw new AssertionError(ex);
+        }
+    }
     @Override
     public void onBackPressed() {
 

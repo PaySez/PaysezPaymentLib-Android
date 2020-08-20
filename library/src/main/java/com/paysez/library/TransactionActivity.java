@@ -478,7 +478,7 @@ public class TransactionActivity extends Activity {
     }
 
     public String getSdkVersion() {
-        return "SDK version 5.10";
+        return AppConfig.sdk_version;
     }
 
     private class MyWebViewClient extends WebViewClient {
@@ -575,7 +575,6 @@ public class TransactionActivity extends Activity {
                 intent.putExtra("rrn", rrn.get(0));
 
                 intent.putExtra("status", "failure");
-
                 setResult(RESULT_CODE_TRANSACTION, intent);
                 finish();
 

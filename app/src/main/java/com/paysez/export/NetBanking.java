@@ -63,7 +63,7 @@ public class NetBanking extends AppCompatActivity {
                 intent.putExtra("merchant_id", merchant_id.getText().toString());
                 intent.putExtra("amount", amount.getText().toString());
                 intent.putExtra("transaction_id", trans_id.getText().toString());
-                intent.putExtra("redirectionurl", "http://example.com/");
+                intent.putExtra("redirectionurl", "http://example.com/?");
                 intent.putExtra("time", time);
                 startActivityForResult(intent, REQUEST_CODE_SALE);
             }
@@ -94,28 +94,29 @@ public class NetBanking extends AppCompatActivity {
 
         if (requestCode == REQUEST_CODE_SALE && resultCode == 100) {
 
-            String status = data.getStringExtra("status");
+
+
+
+            String full_response = data.getStringExtra("full_response");
             String responsecode = data.getStringExtra("responsecode");
             String merchant_id = data.getStringExtra("merchant_id");
             String transaction_id = data.getStringExtra("transaction_id");
             String amount = data.getStringExtra("amount");
-            String currency = data.getStringExtra("currency");
-            String TransactionType = data.getStringExtra("TransactionType");
+
             String success = data.getStringExtra("success");
             String errordesc = data.getStringExtra("errordesc");
-
             String refNbr = data.getStringExtra("refNbr");
+            String status = data.getStringExtra("status");
 
 
+            Log.v("response", full_response);
             Log.v("response", responsecode);
             Log.v("response", merchant_id);
             Log.v("response", transaction_id);
             Log.v("response", amount);
-            Log.v("response", TransactionType);
             Log.v("response", success);
             Log.v("response", errordesc);
             Log.v("response", refNbr);
-            Log.v("response", currency);
             Log.v("response", status);
 
 

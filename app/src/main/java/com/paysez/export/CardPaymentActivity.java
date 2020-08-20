@@ -41,7 +41,8 @@ public class CardPaymentActivity extends AppCompatActivity {
         trans = findViewById(R.id.trans);
         trans.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
 
                 DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
                 Date date = new Date();
@@ -49,11 +50,12 @@ public class CardPaymentActivity extends AppCompatActivity {
 
                 String merchant_id = merchant_id_view.getText().toString();
                 String amount = amount_view.getText().toString();
-
-
-
                 String timestamp = time;
                 String Transaction_id = merchant_id + timestamp;
+                //String redirectionUrl = "https://pg.credopay.in/credopaylogin/digitalpaySuccess.php?";
+                String redirectionUrl = "https://www.example.com/?";
+                String key = "ec89434eca0835";
+                String ivv = "347637a3e64493";
 
 
                 String nameoncard = name_view.getText().toString();
@@ -71,13 +73,7 @@ public class CardPaymentActivity extends AppCompatActivity {
 
 
 
-                //String redirectionUrl = "https://pg.credopay.in/credopaylogin/digitalpaySuccess.php?";
-                String redirectionUrl = "https://www.example.com/?";
 
-
-
-                String key = "ec89434eca0835";
-                String ivv = "347637a3e64493";
 
 
 
