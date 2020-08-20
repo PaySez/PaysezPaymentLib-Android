@@ -72,12 +72,6 @@ public class CardPaymentActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
                 Intent intent = new Intent(CardPaymentActivity.this, TransactionActivity.class);
                 intent.putExtra("merchantID", merchant_id);
                 intent.putExtra("purchaseAmount", amount);

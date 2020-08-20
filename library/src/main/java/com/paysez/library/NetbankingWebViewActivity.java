@@ -85,18 +85,17 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
 
             String postData =
 
-                    "&merchantId=" + merchant_id +
+                    "&merchant_id=" + merchant_id +
                             "&amount=" + amount +
                             "&currency=" + "INR" +
                             "&env=" + "live" +
                             "&timestamp=" + time +
-                            "&transactionId=" + transaction_id +
+                            "&Transaction_id=" + transaction_id +
                             "&TransactionType=" + "AA" +
                             "&redirectionurl=" + redirectionurl;
 
 
             webview.postUrl(AppConfig.netbanking_sale, postData.getBytes());
-            //webview.postUrl("https://pg.ezswype.in/credopay/pay.php?pay=e4825826af",postData.getBytes());
             webview.requestFocus();
 
         }

@@ -542,41 +542,64 @@ public class TransactionActivity extends Activity {
                     pd.dismiss();
                 }
 
-
-                Map<String, List<String>> values = getQueryParams(url);
-                List<String> responsecode = values.get("responsecode");
-                List<String> merchant_id = values.get("merchant_id");
-                List<String> transaction_id = values.get("transaction_id");
-                List<String> amount = values.get("amount");
-                List<String> success = values.get("success");
-                List<String> errordesc = values.get("errordesc");
-                List<String> rrn = values.get("rrn");
-
-
-                Log.v("DATA-key", url);
-                Log.v("DATA-responsecode", responsecode.get(0));
-                Log.v("DATA-merchant_id", merchant_id.get(0));
-                Log.v("DATA-transaction_id", transaction_id.get(0));
-                Log.v("DATA-amount", amount.get(0));
-                Log.v("DATA-success", success.get(0));
-                Log.v("DATA-errordesc", errordesc.get(0));
-                Log.v("DATA-rrn", rrn.get(0));
-                Log.v("DATA-status", "failure");
+                try
+                {
+                    Map<String, List<String>> values = getQueryParams(url);
+                    List<String> responsecode = values.get("responsecode");
+                    List<String> merchant_id = values.get("merchant_id");
+                    List<String> transaction_id = values.get("transaction_id");
+                    List<String> amount = values.get("amount");
+                    List<String> success = values.get("success");
+                    List<String> errordesc = values.get("errordesc");
+                    List<String> rrn = values.get("rrn");
 
 
-                Intent intent = getIntent();
-                intent.putExtra("full_response", url);
-                intent.putExtra("responsecode", responsecode.get(0));
-                intent.putExtra("merchant_id", merchant_id.get(0));
-                intent.putExtra("transaction_id", transaction_id.get(0));
-                intent.putExtra("amount", amount.get(0));
-                intent.putExtra("success", success.get(0));
-                intent.putExtra("errordesc", errordesc.get(0));
-                intent.putExtra("rrn", rrn.get(0));
+                    Log.v("DATA-key", url);
+                    Log.v("DATA-responsecode", responsecode.get(0));
+                    Log.v("DATA-merchant_id", merchant_id.get(0));
+                    Log.v("DATA-transaction_id", transaction_id.get(0));
+                    Log.v("DATA-amount", amount.get(0));
+                    Log.v("DATA-success", success.get(0));
+                    Log.v("DATA-errordesc", errordesc.get(0));
+                    Log.v("DATA-rrn", rrn.get(0));
+                    Log.v("DATA-status", "failure");
 
-                intent.putExtra("status", "failure");
-                setResult(RESULT_CODE_TRANSACTION, intent);
-                finish();
+
+                    Intent intent = getIntent();
+                    intent.putExtra("full_response", url);
+                    intent.putExtra("responsecode", responsecode.get(0));
+                    intent.putExtra("merchant_id", merchant_id.get(0));
+                    intent.putExtra("transaction_id", transaction_id.get(0));
+                    intent.putExtra("amount", amount.get(0));
+                    intent.putExtra("success", success.get(0));
+                    intent.putExtra("errordesc", errordesc.get(0));
+                    intent.putExtra("rrn", rrn.get(0));
+
+                    intent.putExtra("status", "failure");
+                    setResult(RESULT_CODE_TRANSACTION, intent);
+                    finish();
+
+                }
+                catch (Exception e)
+                {
+                    Intent intent = getIntent();
+                    intent.putExtra("full_response", url);
+                    intent.putExtra("responsecode", "NA");
+                    intent.putExtra("merchant_id", "NA");
+                    intent.putExtra("transaction_id", "NA");
+                    intent.putExtra("amount", "NA");
+                    intent.putExtra("success", "failure");
+                    intent.putExtra("errordesc","undefined error");
+                    intent.putExtra("rrn", "NA");
+
+                    intent.putExtra("status", "failure");
+                    setResult(RESULT_CODE_TRANSACTION, intent);
+                    finish();
+
+
+                }
+
+
 
 
             }
@@ -634,7 +657,24 @@ public class TransactionActivity extends Activity {
                     } catch (Exception e) {
 
                         //Log.e("err", e.toString());
+
                         e.printStackTrace();
+
+
+                        Intent intent = getIntent();
+                        intent.putExtra("full_response", url);
+                        intent.putExtra("responsecode", "NA");
+                        intent.putExtra("merchant_id", "NA");
+                        intent.putExtra("transaction_id", "NA");
+                        intent.putExtra("amount", "NA");
+                        intent.putExtra("success", "success");
+                        intent.putExtra("errordesc","please report this error");
+                        intent.putExtra("rrn", "NA");
+
+                        intent.putExtra("status", "success");
+                        setResult(RESULT_CODE_TRANSACTION, intent);
+                        finish();
+
 
                     }
 
