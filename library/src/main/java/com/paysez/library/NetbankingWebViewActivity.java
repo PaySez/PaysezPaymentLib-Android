@@ -83,6 +83,8 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
             redirectionurl = data.getStringExtra("redirectionurl");
             String time = data.getStringExtra("time");
 
+            amount = String.valueOf(Integer.parseInt(amount) / 100);
+
             String postData =
 
                     "&merchant_id=" + merchant_id +

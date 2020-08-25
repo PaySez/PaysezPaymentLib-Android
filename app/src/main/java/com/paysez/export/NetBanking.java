@@ -94,7 +94,8 @@ public class NetBanking extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.v("asdasdsad", requestCode + " " + resultCode);
 
-        if (requestCode == REQUEST_CODE_SALE && resultCode == 100) {
+        if (requestCode == REQUEST_CODE_SALE && resultCode == 100)
+        {
 
 
 
