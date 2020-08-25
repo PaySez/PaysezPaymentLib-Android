@@ -16,6 +16,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 public class NetBanking extends AppCompatActivity {
 
     int REQUEST_CODE_SALE = 1;
@@ -118,6 +120,28 @@ public class NetBanking extends AppCompatActivity {
             Log.v("response", errordesc);
             Log.v("response", refNbr);
             Log.v("response", status);
+
+
+
+            if(success.equals("Success"))
+            {
+
+                new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("Transaction Success")
+                        .setContentText(full_response)
+
+                        .show();
+
+            }
+            else if(success.equals("Failed"))
+            {
+                new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Transaction Failed")
+                        .setContentText(full_response)
+                        .show();
+
+
+            }
 
 
         } else if (requestCode == REQUEST_CODE_QUERY && resultCode == 200) {

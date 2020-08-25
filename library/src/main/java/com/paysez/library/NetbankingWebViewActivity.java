@@ -198,7 +198,7 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
 
 
 
-                if (url.contains("success=Failed") && !url.contains("/fbtestbackground.php") && url.contains(redirectionurl))
+                if (url.startsWith(redirectionurl) && url.contains("success=Failed"))
             {
                 if (pd != null) {
 
@@ -249,7 +249,7 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
 
 
 
-            if (url.contains("responsecode=200") && url.contains("success=Success") && !url.contains("/fbtestbackground.php") && url.contains(redirectionurl))
+            if (url.startsWith(redirectionurl) && url.contains("responsecode=200") && url.contains("success=Success"))
             {
 
 

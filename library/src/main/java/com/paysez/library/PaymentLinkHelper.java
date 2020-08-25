@@ -284,8 +284,8 @@ public class PaymentLinkHelper extends AppCompatActivity {
                                     .build();
                             MediaType mediaType = MediaType.parse("text/plain");
                             RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                    // .addFormDataPart("mid", mid_val)
-                                    .addFormDataPart("mid", mid_val)
+                                     .addFormDataPart("mid", mid_val)
+                                    //.addFormDataPart("mid", "E01030000000008")
                                     .addFormDataPart("request_for", request_for_val)
                                     .build();
                             Request request = new Request.Builder()

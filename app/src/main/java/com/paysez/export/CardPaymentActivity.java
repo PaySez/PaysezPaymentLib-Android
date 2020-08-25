@@ -15,6 +15,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 public class CardPaymentActivity extends AppCompatActivity {
     EditText merchant_id_view, amount_view, name_view, cardno_view, expiry_month_view, expiry_year_view, cvv;
@@ -52,7 +54,6 @@ public class CardPaymentActivity extends AppCompatActivity {
                 String amount = amount_view.getText().toString();
                 String timestamp = time;
                 String Transaction_id = merchant_id + timestamp;
-                //String redirectionUrl = "https://pg.credopay.in/credopaylogin/digitalpaySuccess.php?";
                 String redirectionUrl = "https://www.example.com/?";
                 String key = "ec89434eca0835";
                 String ivv = "347637a3e64493";
@@ -63,12 +64,6 @@ public class CardPaymentActivity extends AppCompatActivity {
                 String expiry_mm = expiry_month_view.getText().toString();
                 String expiry_yy = expiry_year_view.getText().toString();
                 String card_cvv = cvv.getText().toString();
-
-//                String nameoncard = "NAME";
-//                String card_num = "4106111122223333";
-//                String expiry_mm = "09";
-//                String expiry_yy = "21";
-//                String card_cvv = "321";
 
 
 
@@ -140,6 +135,37 @@ public class CardPaymentActivity extends AppCompatActivity {
                 String rrn = data.getStringExtra("rrn");
                 String status = data.getStringExtra("status");
 
+
+if(status.equals("failure"))
+{
+
+    new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+            .setTitleText("Transaction failed")
+            .setContentText(full_response)
+
+            .show();
+
+}
+    else if(status.equalsIgnoreCase("success"))
+{
+    new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+            .setTitleText("Transaction Success")
+            .setContentText(full_response)
+
+            .show();
+
+
+}
+    else if(status.equalsIgnoreCase("failed"))
+{
+
+    new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+            .setTitleText("Transaction failed")
+            .setContentText(full_response)
+
+            .show();
+
+}
 
                 Log.v("DATA_response", "=================RESPONSE===========================");
                 Log.v("DATA_response", full_response);
