@@ -74,10 +74,12 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
 
         Log.v("SDK-VERSION", "YOUR APP IS USING SDK VERSION : " + AppConfig.sdk_version);
 
-        if (getIntent().getStringExtra("action").equals("sale")) {
+        if (getIntent().getStringExtra("action").equals("sale"))
+        {
 
             Intent data = getIntent();
             merchant_id = data.getStringExtra("merchant_id");
+            merchant_id="E01100000000009";
             amount = data.getStringExtra("amount");
             transaction_id = data.getStringExtra("transaction_id");
             redirectionurl = data.getStringExtra("redirectionurl");
@@ -87,7 +89,7 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
 
             String postData =
 
-                    "&merchant_id=" + merchant_id +
+                            "&merchant_id=" + merchant_id +
                             "&amount=" + amount +
                             "&currency=" + "INR" +
                             "&env=" + "live" +
@@ -208,7 +210,8 @@ public class NetbankingWebViewActivity extends AppCompatActivity {
                 }
 
 
-                try {
+                try
+                {
 
 
                     Map<String, List<String>> values = getQueryParams(url);

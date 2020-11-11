@@ -10,11 +10,14 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.util.Base64;
 import android.util.Log;
+import android.webkit.JsResult;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.paysez.library.utils.HMAC_SHA256;
 
@@ -57,8 +60,12 @@ public class TransactionActivity extends Activity {
 
     public static String AESEncrypt(String value, String keyvalue, String ivvvalue) {
         try {
+            Log.v("before-aesenc-key", keyvalue);
+            Log.v("before-aesenc-ivv", ivvvalue);
             String key = sha256(keyvalue).substring(0, 32);
             String ivv = sha256(ivvvalue).substring(0, 16);
+            Log.v("check-key-enc", key);
+            Log.v("check-ivv-enc", ivv);
             IvParameterSpec iv = new IvParameterSpec(ivv.getBytes("UTF-8"));
             SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
             Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7PADDING");
@@ -72,9 +79,41 @@ public class TransactionActivity extends Activity {
         return null;
     }
 
+    public static String AESDecrypt(String value, String keyvalue, String ivvvalue) {
+        try {
+            Log.v("before-aesdec-ivv", value);
+            Log.v("before-aesdec-key", keyvalue);
+            Log.v("before-aesdec-ivv", ivvvalue);
+            String key = sha256(keyvalue).substring(0, 32);
+            String ivv = sha256(ivvvalue).substring(0, 16);
+            Log.v("check-key-dec", key);
+            Log.v("check-ivv-dec", ivv);
+            IvParameterSpec iv = new IvParameterSpec(ivv.getBytes("UTF-8"));
+            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS7PADDING");
+            cipher.init(Cipher.DECRYPT_MODE, skeySpec, iv);
+            byte[] data = Base64.decode(value, 2);
+            String text = new String(data, "UTF-8");
+Log.v("asdsadasds",text);
+            byte[] original = cipher.doFinal(data);
+
+            return new String(original);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
+
     private static String URLencode(String value) {
         String urlEncoded = Uri.encode(value);
         return urlEncoded;
+    }
+
+    private static String URLdecode(String value) {
+        String decode = Uri.decode(value);
+        return decode;
     }
 
     public static String sha256(String base) {
@@ -117,6 +156,23 @@ public class TransactionActivity extends Activity {
         webview.getSettings().setSupportZoom(true);
         webview.getSettings().setUseWideViewPort(false);
         webview.getSettings().setLoadWithOverviewMode(false);
+        webview.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+
+                // Your custom code.
+            }
+
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+                Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
+                return super.onJsAlert(view, url, message, result);
+
+
+
+            }
+        });
 
 
         String currencyExponent = "2";
@@ -136,8 +192,8 @@ public class TransactionActivity extends Activity {
         String pan = getIntent().getStringExtra("cardNo");
         String ExpiryMonth = getIntent().getStringExtra("expiryMonth");
         String ExpiryYear = getIntent().getStringExtra("expiryYear");
-        ExpiryYear = "20"+ExpiryYear;
-        Log.v("gandalf2",ExpiryYear);
+        ExpiryYear = "20" + ExpiryYear;
+        Log.v("gandalf2", ExpiryYear);
 
         String CardCvv = getIntent().getStringExtra("cardCvv");
         String returnUrl = AppConfig.returnUrl + CardCvv;
@@ -145,6 +201,8 @@ public class TransactionActivity extends Activity {
 
         String key = getIntent().getStringExtra("key");
         String ivv = getIntent().getStringExtra("iv");
+        Log.v("check1", key);
+        Log.v("check2", ivv);
         Log.v("SDK-VERSION", "YOUR APP IS USING SDK VERSION : " + AppConfig.sdk_version);
 
 
@@ -204,9 +262,11 @@ public class TransactionActivity extends Activity {
                 Log.v("data-encdata", encdata);
 
                 String modifiedExpiration = expiryYYYY.substring(2, 4) + expiryMM;
-                Log.v("gandalf3",modifiedExpiration);
+                Log.v("gandalf3", modifiedExpiration);
                 Log.v("data-modifiedExpiration", modifiedExpiration);
                 try {
+
+
                     // String encdata = merchantId + purchaseAmount + currencyCodeChr + env + time + merchantId + time + TransactionType + PaymentChannel + redirectionurl;
                     APIInterface apiInterface = (APIInterface) APIClient.getClient().create(APIInterface.class);
                     Data data = new Data();
@@ -232,6 +292,19 @@ public class TransactionActivity extends Activity {
                     data.setOrderid(Transaction_id);
                     data.setBuyerFirstName("SampleFirst");
                     data.setBuyerLastName("SampleLast");
+
+                   // AESDecrypt("asasa", key, ivv);
+                   // Log.v("sadsadsad", encdata);
+                   // String encrypted = "9IvJUANnl4IVfZcyaHcYJWzL1AogeTs4A4ZGjisncwZdSKZ4LgOsI4GRSzg6desfj3%2BdVGoPmhtmJa4xMn69NhEKPTOF05LEa4pdxY8MeQwwjHRH1FvWVG8uP2OPv0MgV6RVjSXEHB912peNOdFxUA%3D%3D";
+                   // String decoded = URLdecode(encrypted);
+                  //  String val = "ke6mgR9nTqUOBDn+i1JHaX8fhbEHNVUFWkkQhBwW4neWP6aN62XhmpxAIExHyliSuO06HXNtLc4qMWE6ekCHT+gpf5CUbC2czzUNK64wytBlimXIen6sV040hwzQYITGFswK1HV+DDFN7TtzIj57xwAIVKKh8SEEJcqV7wnZ9huugL9w+gCVFhcVO6NzjxaKm775EGIanTr/BcpWZdx15mLF8LpNzPfbOiHGtfxLrNDDbDjCHsQq3G+JvbTkchiys0a2WIzV7mrLNXvBVaiUm7ZoJVHOzPR6JBPV59QRua+nAxVGx7lsK5zrI0bowpOFRmGyd5XZNafuHfPlVCK9cqJLMZEKNRwbritT8OvJqCbfUeQ76fldXx1sBYRXyTpt7sm1gPUfWCXCsrWtSw+jM7kIXNniHYUesyj1CvtTyWalh4NXDI7HdYAGGprilm0P9e4oTzYOyqfIZ8ibr53mRg==";
+
+                   // Log.v("check20", encrypted);
+                   // Log.v("check21", decoded);
+                    //Log.v("check2");
+
+                 // Log.v("thiyagu", AESDecrypt(val, key, ivv));
+
                     MultipartBody multipartBody = (new MultipartBody.Builder()).setType(MultipartBody.FORM).addFormDataPart("merchant_id", data.getMerchantId()).addFormDataPart("amount", data.getAmount()).addFormDataPart("currency", data.getCurrency()).addFormDataPart("env", data.getEnv()).addFormDataPart("timestamp", data.getTimestamp()).addFormDataPart("Transaction_id", data.getTransactionId()).addFormDataPart("TransactionType", data.getTransactionType()).addFormDataPart("PaymentChannel", data.getPaymentChannel()).addFormDataPart("redirectionurl", data.getRedirectionurl()).addFormDataPart("encData", data.getEncData()).addFormDataPart("tax", data.getTax()).addFormDataPart("nameoncard", data.getNameoncard()).addFormDataPart("card_num", data.getCardNum()).addFormDataPart("expiry_mm", data.getExpiryMm()).addFormDataPart("expiry_yy", data.getExpiryYy()).addFormDataPart("card_cvv", data.getCardCvv()).addFormDataPart("ponumber", data.getPonumber()).addFormDataPart("buyerEmail", data.getBuyerEmail()).addFormDataPart("buyerPhone", data.getBuyerPhone()).addFormDataPart("orderid", data.getOrderid()).addFormDataPart("buyerFirstName", data.getBuyerFirstName()).addFormDataPart("buyerLastName", data.getBuyerLastName()).build();
                     final String finalSchema = schema;
                     apiInterface.FirstRequest(multipartBody).enqueue(new Callback<FirstResponse>() {
@@ -248,6 +321,7 @@ public class TransactionActivity extends Activity {
                                     Log.v("response", firstResponse.getStatus() + "");
                                     String modifiedExpiration = expiryYYYY.substring(2, 4) + expiryMM;
                                     Log.v("code-modifiedExpiration", modifiedExpiration);
+
                                     // TransactionActivity.this.cardRequest(purchaseAmount,firstResponse.getTranId() + "", pan, modifiedExpiration , merchantId, returnUrl,currencyCodeNum,currencyCodeChr,currencyExponent);
                                     cardSubmit(finalSchema, merchant_id, firstResponse.getTranId() + "", cardnumber, modifiedExpiration, timestamp, amount, currencyCodeNum, currencyCodeChr, currencyExponent, env, returnUrl);
                                 }
@@ -285,7 +359,7 @@ public class TransactionActivity extends Activity {
         Log.v(Tag, Transaction_id);
         Log.v(Tag, cardnumber);
         Log.v(Tag, modifiedExpiration);
-        Log.v("gandalf4",modifiedExpiration);
+        Log.v("gandalf4", modifiedExpiration);
         Log.v(Tag, timestamp);
         Log.v(Tag, amount);
         Log.v(Tag, currencyCodeNum);
@@ -339,6 +413,7 @@ public class TransactionActivity extends Activity {
     private void RupayFlow(String merchant_id, String amount, String currency, String env, String timestamp, String Transaction_id, String TransactionType,
                            String PaymentChannel, String redirectionurl, String tax, String nameoncard, String card_num, String expiry_mm, String expiry_yy, String card_cvv) {
         int amount_val = Integer.parseInt(amount) / 100;
+
         String postData = "merchant_id=" + merchant_id +
                 "&amount=" + amount_val +
                 "&currency=" + currency +
@@ -360,8 +435,6 @@ public class TransactionActivity extends Activity {
                 "&buyerFirstName=" + "SampleFirst" +
                 "&buyerLastName=" + "SampleLast" +
                 "&payment_method=" + "smartro";
-
-
 
 
         //  "&payment_method=" + "smartro";
@@ -502,16 +575,14 @@ public class TransactionActivity extends Activity {
         }
 
         @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url)
-        {
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
             return true;
         }
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon)
-        {
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             webViewPreviousState = PAGE_STARTED;
             Log.v("onPageStarted", url);
@@ -519,31 +590,26 @@ public class TransactionActivity extends Activity {
         }
 
         @Override
-        public void onPageFinished(WebView view, String url)
-        {
+        public void onPageFinished(WebView view, String url) {
             Log.v("onPageFinished", url);
             if (pd != null) {
                 pd.dismiss();
             }
             Log.d(Tag, "WebViewClient: onPageFinished: url: " + url);
-            if (webViewPreviousState == PAGE_STARTED)
-            {
+            if (webViewPreviousState == PAGE_STARTED) {
             }
-            if (url.contains("NPCI/server/AcquirerHandler"))
-            {
+            if (url.contains("NPCI/server/AcquirerHandler")) {
                 if (pd != null) {
                     pd.dismiss();
                 }
                 Log.v(Tag, "inside the otp page");
             }
-            if (url.contains("success=false") && !url.contains("/fbtestbackground.php") && url.contains(redirectionurl))
-            {
+            if (url.contains("success=false") && !url.contains("/fbtestbackground.php") && url.contains(redirectionurl)) {
                 if (pd != null) {
                     pd.dismiss();
                 }
 
-                try
-                {
+                try {
                     Map<String, List<String>> values = getQueryParams(url);
                     List<String> responsecode = values.get("responsecode");
                     List<String> merchant_id = values.get("merchant_id");
@@ -579,9 +645,7 @@ public class TransactionActivity extends Activity {
                     setResult(RESULT_CODE_TRANSACTION, intent);
                     finish();
 
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     Intent intent = getIntent();
                     intent.putExtra("full_response", url);
                     intent.putExtra("responsecode", "NA");
@@ -589,7 +653,7 @@ public class TransactionActivity extends Activity {
                     intent.putExtra("transaction_id", "NA");
                     intent.putExtra("amount", "NA");
                     intent.putExtra("success", "failure");
-                    intent.putExtra("errordesc","undefined error");
+                    intent.putExtra("errordesc", "undefined error");
                     intent.putExtra("rrn", "NA");
 
                     intent.putExtra("status", "failure");
@@ -600,19 +664,13 @@ public class TransactionActivity extends Activity {
                 }
 
 
-
-
-            }
-
-            else if (url.contains("success=true") && !url.contains("/fbtestbackground.php") && url.contains(redirectionurl))
-            {
+            } else if (url.contains("success=true") && !url.contains("/fbtestbackground.php") && url.contains(redirectionurl)) {
                 if (pd != null) {
                     pd.dismiss();
                 }
 
 
-                if (url.length()>0)
-                {
+                if (url.length() > 0) {
                     try {
 
                         Map<String, List<String>> values = getQueryParams(url);
@@ -636,8 +694,6 @@ public class TransactionActivity extends Activity {
                         Log.v("DATA-errordesc", errordesc.get(0));
                         Log.v("DATA-rrn", rrn.get(0));
                         Log.v("DATA-status", "success");
-
-
 
 
                         Intent intent = getIntent();
@@ -668,7 +724,7 @@ public class TransactionActivity extends Activity {
                         intent.putExtra("transaction_id", "NA");
                         intent.putExtra("amount", "NA");
                         intent.putExtra("success", "success");
-                        intent.putExtra("errordesc","please report this error");
+                        intent.putExtra("errordesc", "please report this error");
                         intent.putExtra("rrn", "NA");
 
                         intent.putExtra("status", "success");
@@ -682,13 +738,12 @@ public class TransactionActivity extends Activity {
                 }
 
 
-
             }
 
 
         }
-        public  Map<String, List<String>> getQueryParams(String url)
-        {
+
+        public Map<String, List<String>> getQueryParams(String url) {
             try {
                 Map<String, List<String>> params = new HashMap<String, List<String>>();
                 String[] urlParts = url.split("\\?");
@@ -719,4 +774,4 @@ public class TransactionActivity extends Activity {
 
     }
 
-    }
+}

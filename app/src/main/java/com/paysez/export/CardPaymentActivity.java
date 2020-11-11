@@ -57,6 +57,7 @@ public class CardPaymentActivity extends AppCompatActivity {
                 String redirectionUrl = "https://www.example.com/?";
                 String key = "ec89434eca0835";
                 String ivv = "347637a3e64493";
+                merchant_id = "E01100000000009";
 
 
                 String nameoncard = name_view.getText().toString();
@@ -64,6 +65,7 @@ public class CardPaymentActivity extends AppCompatActivity {
                 String expiry_mm = expiry_month_view.getText().toString();
                 String expiry_yy = expiry_year_view.getText().toString();
                 String card_cvv = cvv.getText().toString();
+
 
 
 

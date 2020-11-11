@@ -30,6 +30,12 @@ public class MerchantLoginActivity extends AppCompatActivity implements View.OnC
         tid = findViewById(R.id.tid);
         mid.setText("E01010000000133");
         tid.setText("E0001457");
+
+
+
+
+
+
         btn_login = findViewById(R.id.login);
     }
 

@@ -7,16 +7,13 @@ import android.os.Bundle;
 import android.util.Log;
 
 
-import com.google.gson.Gson;
-import com.paysez.library.Responses.Datum;
-import com.paysez.library.Responses.ExpiredLinksResponse;
-import com.paysez.library.Responses.LinkLists;
+
 import com.paysez.library.Responses.LoginResponse;
 import com.paysez.library.Responses.PushResponse;
 import com.paysez.library.Responses.SMS_Response;
 
 import java.io.IOException;
-import java.util.List;
+
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -37,7 +34,6 @@ public class PaymentLinkHelper extends AppCompatActivity {
         setContentView(R.layout.activity_payment_link);
         String modeOfOperation = getIntent().getStringExtra("request_for");
         apiInterface = PushAPIClient.getClient().create(PushAPIInterface.class);
-        // Toast.makeText(getApplicationContext(), modeOfOperation, Toast.LENGTH_LONG).show();
         progressDialog = new ProgressDialog(this);
         showProgressDialog();
         switch (modeOfOperation) {
@@ -284,8 +280,7 @@ public class PaymentLinkHelper extends AppCompatActivity {
                                     .build();
                             MediaType mediaType = MediaType.parse("text/plain");
                             RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                                     .addFormDataPart("mid", mid_val)
-                                    //.addFormDataPart("mid", "E01030000000008")
+                                    .addFormDataPart("mid", mid_val)
                                     .addFormDataPart("request_for", request_for_val)
                                     .build();
                             Request request = new Request.Builder()

@@ -61,6 +61,19 @@ public class Datum {
     @Expose
     private String maskedCard;
 
+    @SerializedName("terminal_id")
+    @Expose
+    private String terminal_id;
+
+
+    public String getTerminal_id() {
+        return terminal_id;
+    }
+
+
+    public void setTerminal_id(String terminal_id) {
+        this.terminal_id = terminal_id;
+    }
 
     public String getPayStatusCode() {
         return payStatusCode;

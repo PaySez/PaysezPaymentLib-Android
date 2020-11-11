@@ -18,12 +18,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="true"
-            android:text="E01010000001529" />
+            android:text="E01100000000123" />
 
         <EditText
             android:id="@+id/amount"
             android:hint="amount"
-            android:text="1"
+            android:text="100"
             android:enabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

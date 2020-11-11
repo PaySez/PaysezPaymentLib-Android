@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.paysez.library.PaymentWebviewActivity;
+
 public class ActionSelectionActivity extends AppCompatActivity {
-Button card,upi,net_banking,payment_links;
+Button card,upi,net_banking,payment_links,web_view;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +18,7 @@ Button card,upi,net_banking,payment_links;
         upi = findViewById(R.id.upi);
         net_banking = findViewById(R.id.net_banking);
         payment_links = findViewById(R.id.payment_links);
+        web_view = findViewById(R.id.web_view);
 
         card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +50,15 @@ Button card,upi,net_banking,payment_links;
                 startActivity(intent);
             }
         });
+        web_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+
+
+                Intent intent= new Intent(ActionSelectionActivity.this, RequestActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }
