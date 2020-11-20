@@ -121,8 +121,8 @@ public class PaymentWebviewActivity extends Activity {
                     //+ "&payee_vpa_addrs=" + "OzE000010@CUBUPI"
                     + "&payee_vpa_addrs=" + "EZE0000226@cubupi"
                     + "&redirectionurl=" + redirectionurl;
-            //webview.postUrl("https://pguat.credopay.info/credopay/Upi_collect_test.php", postData.getBytes());
-            webview.postUrl("https://pg.credopay.in/credopay/CPWebPG.php", postData.getBytes());
+            webview.postUrl("https://pguat.credopay.info/credopay/CPWebPG.php", postData.getBytes());
+           // webview.postUrl("https://pg.credopay.in/credopay/CPWebPG.php", postData.getBytes());
             //
             //webview.postUrl("https://pguat.credopay.info/credopay/Upipay_test.php",postData.getBytes());
             webview.requestFocus();

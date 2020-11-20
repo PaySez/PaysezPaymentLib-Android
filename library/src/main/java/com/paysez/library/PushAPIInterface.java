@@ -14,7 +14,12 @@ import retrofit2.http.Body;
 import retrofit2.http.POST;
 
 public interface PushAPIInterface {
-String url="/credopaylogin/pushpay_MobReq.php";
+String url="/credopaylogin/services/slim_services/pushpay_MobReq_mobile.php";
+
+
+
+
+
 
     @POST(url)
     Call<PushResponse> generateLink(@Body RequestBody body);

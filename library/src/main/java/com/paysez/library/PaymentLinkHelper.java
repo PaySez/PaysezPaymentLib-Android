@@ -120,8 +120,8 @@ public class PaymentLinkHelper extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             String mid = loginResponse.getMerchant_id();
                             String unmae = loginResponse.getUser_name();
-
-                            if (mid != null && unmae != null) {
+                            String status = loginResponse.getStatus();
+                            if ( status.equalsIgnoreCase("00") && mid != null && unmae != null) {
                                 Log.v("data", loginResponse.getMerchant_id());
                                 Log.v("data", loginResponse.getUser_name());
                                 Intent intent = new Intent();
@@ -131,7 +131,7 @@ public class PaymentLinkHelper extends AppCompatActivity {
                                 setResult(1, intent);
                                 finish();
 
-                            } else {
+                            } else if(status.equalsIgnoreCase("01")) {
 
                                 Log.v("data", "null");
                                 Log.v("data", "null");

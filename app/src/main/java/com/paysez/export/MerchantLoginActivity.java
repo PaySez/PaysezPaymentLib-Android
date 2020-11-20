@@ -28,8 +28,8 @@ public class MerchantLoginActivity extends AppCompatActivity implements View.OnC
     private void PrepareUI() {
         mid = findViewById(R.id.mid);
         tid = findViewById(R.id.tid);
-        mid.setText("E01010000000133");
-        tid.setText("E0001457");
+        mid.setText("E01100000000009");
+        tid.setText("E0002214");
 
 
 
@@ -63,7 +63,8 @@ public class MerchantLoginActivity extends AppCompatActivity implements View.OnC
 
 
             String status = data.getStringExtra("status");
-            if (status.equalsIgnoreCase("00")) {
+            if (status.equalsIgnoreCase("00"))
+            {
                 String mid = data.getStringExtra("mid");
                 String uname = data.getStringExtra("username");
                 Intent intent1 = new Intent(this, PaymentLinksActivity.class);
@@ -73,7 +74,7 @@ public class MerchantLoginActivity extends AppCompatActivity implements View.OnC
             } else if (status.equalsIgnoreCase("01")) {
 
 
-                Toast.makeText(this, status, Toast.LENGTH_SHORT).show();
+           Toast.makeText(getApplicationContext(),"CHECK LOGIN DETAILS",Toast.LENGTH_LONG).show();
 
 
             }
