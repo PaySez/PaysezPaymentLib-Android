@@ -1,5 +1,5 @@
 # PaysezAndroidSDK
-Android Based Library for PaysezPayment Gateway
+Android native Based Library for PaysezPayment Gateway
 
 [![](https://jitpack.io/v/PaySez/PaysezPaymentLib-Android.svg)](https://jitpack.io/#PaySez/PaysezPaymentLib-Android)
 
